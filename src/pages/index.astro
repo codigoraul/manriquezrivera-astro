@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroSlider from "../components/HeroSlider.astro";
+import ServicesGrid from "../components/ServicesGrid.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout title="Manríquez Rivera · Estudio Jurídico">
+  <!-- Hero Slider -->
+  <HeroSlider />
+
+  <!-- Servicios Empresas (solo 3) -->
+  <ServicesGrid tipo="empresas" limit={3} />
+
+  <!-- Servicios Personas (solo 3) -->
+  <ServicesGrid tipo="personas" limit={3} />
+
+  <Footer />
+</BaseLayout>

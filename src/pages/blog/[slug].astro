@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import Footer from "../../components/Footer.astro";
+import { getAllPosts, getPostBySlug, getPostFeaturedImage, getPrimaryCategory } from "../../lib/wordpress";
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+if (!post) {
+  throw new Error("Post no encontrado");
+}
+
+const baseUrl = import.meta.env.BASE_URL || '';
+const featuredImage = getPostFeaturedImage(post);
+const category = getPrimaryCategory(post);
+const title = post.title?.rendered || 'Artículo';
+const content = post.content?.rendered || '<p>Contenido no disponible.</p>';
+
+const breadcrumbs = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Blog', href: `${baseUrl}/blog` },
+  { label: title }
+];
+---
+
+<BaseLayout title={`${title} · Blog Manríquez Rivera`}>
+  <PageHero
+    title={title}
+    breadcrumbs={breadcrumbs}
+    backgroundImage={featuredImage}
+  />
+
+  <article class="py-20 px-6 bg-white">
+    <div class="max-w-4xl mx-auto">
+      {category && (
+        <span class="inline-flex items-center bg-primary/5 text-primary text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full mb-5">
+          {category}
+        </span>
+      )}
+
+      <div
+        class="prose prose-lg max-w-none prose-headings:text-primary prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-p:text-gray-700 prose-p:leading-relaxed prose-strong:text-primary prose-blockquote:border-secondary prose-blockquote:text-primary/80 prose-a:text-secondary hover:prose-a:text-secondary-dark"
+        set:html={content}
+      />
+    </div>
+  </article>
+
+  <Footer />
+</BaseLayout>

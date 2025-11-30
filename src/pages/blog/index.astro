@@ -1,0 +1,106 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import Footer from "../../components/Footer.astro";
+import { getPosts, getPostFeaturedImage, getPrimaryCategory } from "../../lib/wordpress";
+
+const posts = await getPosts(12);
+const BASE_URL = import.meta.env.BASE_URL || '';
+
+const sanitizeExcerpt = (html: string = '') =>
+  html
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const getExcerpt = (post: any, maxLength = 200) => {
+  const raw = post?.excerpt?.rendered || post?.content?.rendered || '';
+  const clean = sanitizeExcerpt(raw);
+  if (!clean) return '';
+
+  if (clean.length <= maxLength) return clean;
+
+  const trimmed = clean.slice(0, maxLength);
+  const lastSpace = trimmed.lastIndexOf(' ');
+  return `${trimmed.slice(0, lastSpace > 0 ? lastSpace : maxLength).trim()}…`;
+};
+---
+
+<BaseLayout title="Blog y Artículos · Manríquez Rivera">
+  <PageHero
+    title="Blog y Artículos"
+    subtitle="Análisis y contenido legal para empresas y personas"
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Blog" }
+    ]}
+    backgroundImage="/images/bg-title.jpg"
+  />
+
+  <section class="py-20 px-6 bg-cream">
+    <div class="max-w-container mx-auto">
+      {posts.length === 0 ? (
+        <p class="text-center text-gray-600 text-lg">
+          Aún no hay artículos publicados. Vuelve pronto.
+        </p>
+      ) : (
+        <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => {
+            const image = getPostFeaturedImage(post);
+            const category = getPrimaryCategory(post);
+            const excerpt = getExcerpt(post);
+            const url = `${BASE_URL}/blog/${post.slug}`;
+
+            return (
+              <article class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow duration-300" data-post-card>
+                <a href={url} class="relative block h-60 overflow-hidden" aria-label={`Leer artículo ${post.title.rendered}`}>
+                  <img
+                    src={image}
+                    alt={post.title.rendered}
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  <div class="absolute inset-0 bg-linear-to-t from-black/50 to-transparent"></div>
+                  {category && (
+                    <span class="absolute top-4 left-4 bg-secondary text-primary text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full shadow">
+                      {category}
+                    </span>
+                  )}
+                </a>
+
+                <div class="p-6 flex-1 flex flex-col">
+                  <a href={url} class="block">
+                    <h2 class="text-2xl font-bold text-primary mb-3 line-clamp-2">
+                      {post.title.rendered}
+                    </h2>
+                  </a>
+                  {excerpt && (
+                    <p class="text-gray-600 mb-6 line-clamp-4">
+                      {excerpt}
+                    </p>
+                  )}
+
+                  <a
+                    href={url}
+                    class="mt-auto inline-flex items-center text-secondary font-semibold hover:text-secondary-dark transition-colors"
+                  >
+                    Leer artículo
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,209 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Footer from "../components/Footer.astro";
+
+const contactMethods = [
+  {
+    title: "Atención General",
+    description:
+      "Resolvemos tus consultas legales y derivamos tu caso con el especialista indicado.",
+    items: [
+      { label: "Correo", value: "contacto@manriquezrivera.cl", href: "mailto:contacto@manriquezrivera.cl" },
+      { label: "Teléfono", value: "+56 9 1234 5678", href: "tel:+56912345678" }
+    ]
+  },
+  {
+    title: "Empresas",
+    description: "Asesoría estratégica para directorios, gerencias y equipos legales.",
+    items: [
+      { label: "Correo", value: "empresas@manriquezrivera.cl", href: "mailto:empresas@manriquezrivera.cl" },
+      {
+        label: "Agenda una reunión",
+        value: "LinkedIn",
+        href: "https://www.linkedin.com/company/manríquez-rivera-abogados/"
+      }
+    ]
+  },
+  {
+    title: "Personas",
+    description: "Defendemos tus derechos laborales, familiares y civiles.",
+    items: [
+      { label: "Correo", value: "personas@manriquezrivera.cl", href: "mailto:personas@manriquezrivera.cl" },
+      { label: "WhatsApp", value: "+56 9 1234 5678", href: "https://wa.me/56912345678" }
+    ]
+  }
+];
+
+const officeHighlights = [
+  { label: "Ubicación", value: "Santiago, Chile", icon: "map" },
+  { label: "Horario", value: "Lunes a Viernes · 09:00 a 18:30", icon: "clock" },
+  { label: "Respuesta", value: "Menos de 24 horas hábiles", icon: "bolt" }
+];
+
+const iconPaths: Record<string, string> = {
+  map: "M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z M12 13a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z",
+  clock: "M12 6v6l3 3 M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
+  bolt: "m13 2-3 8h4l-3 10"
+};
+---
+
+<BaseLayout title="Contacto · Manríquez Rivera">
+  <section class="bg-primary text-white py-20 px-6">
+    <div class="max-w-5xl mx-auto text-center space-y-6">
+      <p class="uppercase tracking-[0.3em] text-sm text-white/70">Contacto</p>
+      <h1 class="text-4xl md:text-5xl font-bold leading-tight">
+        Conversemos sobre el respaldo legal que necesitas
+      </h1>
+      <p class="text-white/85 text-lg max-w-3xl mx-auto">
+        Nuestro equipo responde personalmente cada solicitud. Cuéntanos tu situación y te orientaremos en el camino más conveniente para tu empresa o tu familia.
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4 text-base font-semibold">
+        <a href="tel:+56912345678" class="inline-flex items-center justify-center px-8 py-3 rounded-full bg-white text-primary hover:bg-secondary transition">
+          Llamar ahora
+        </a>
+        <a href="mailto:contacto@manriquezrivera.cl" class="inline-flex items-center justify-center px-8 py-3 rounded-full border border-white/60 text-white hover:bg-white/10 transition">
+          Escribir correo
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 px-6 bg-gray-50">
+    <div class="max-w-container mx-auto space-y-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {officeHighlights.map((item) => (
+          <article class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+            <div class="w-12 h-12 rounded-full bg-secondary/15 text-secondary flex items-center justify-center mb-5">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d={iconPaths[item.icon]} />
+              </svg>
+            </div>
+            <p class="text-sm uppercase tracking-[0.25em] text-gray-500">{item.label}</p>
+            <p class="text-2xl font-semibold text-primary mt-2">{item.value}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {contactMethods.map((method) => (
+          <article class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 flex flex-col">
+            <h3 class="text-2xl font-bold text-primary mb-3">{method.title}</h3>
+            <p class="text-gray-600 mb-6 flex-1">{method.description}</p>
+            <ul class="space-y-4">
+              {method.items.map((item) => (
+                <li>
+                  <p class="text-xs tracking-[0.3em] uppercase text-gray-400">{item.label}</p>
+                  <a href={item.href} class="text-lg font-semibold text-secondary hover:text-secondary-dark transition-colors">
+                    {item.value}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" class="py-20 px-6 bg-white">
+    <div class="max-w-container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <p class="text-sm uppercase tracking-[0.3em] text-secondary font-semibold mb-3">Formulario</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-primary mb-6">Cuéntanos en qué podemos ayudarte</h2>
+        <p class="text-gray-600 text-lg leading-relaxed mb-8">
+          Mientras más contexto tengamos, más rápido podemos asignar al abogado ideal para tu caso. También puedes adjuntar enlaces o documentos en tu mensaje.
+        </p>
+        <ul class="space-y-4 text-gray-600">
+          <li class="flex gap-3">
+            <span class="text-secondary font-semibold">•</span>
+            Respuesta en menos de 24 horas hábiles.
+          </li>
+          <li class="flex gap-3">
+            <span class="text-secondary font-semibold">•</span>
+            Confidencialidad total de la información.
+          </li>
+          <li class="flex gap-3">
+            <span class="text-secondary font-semibold">•</span>
+            Reuniones presenciales o virtuales según tu preferencia.
+          </li>
+        </ul>
+      </div>
+
+      <form
+        class="bg-gray-50 rounded-3xl p-8 shadow-xl space-y-6"
+        method="post"
+        name="contacto-general"
+        data-netlify="true"
+        data-netlify-honeypot="bot-field"
+      >
+        <input type="hidden" name="form-name" value="contacto-general" />
+        <input type="hidden" name="bot-field" />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <label class="text-sm font-semibold text-gray-700 space-y-2">
+            Nombre completo
+            <input type="text" name="nombre" required class="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-secondary" placeholder="Ej: Daniela Rivera" />
+          </label>
+          <label class="text-sm font-semibold text-gray-700 space-y-2">
+            Empresa (opcional)
+            <input type="text" name="empresa" class="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-secondary" placeholder="Nombre de la empresa" />
+          </label>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <label class="text-sm font-semibold text-gray-700 space-y-2">
+            Correo electrónico
+            <input type="email" name="correo" required class="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-secondary" placeholder="tu@correo.com" />
+          </label>
+          <label class="text-sm font-semibold text-gray-700 space-y-2">
+            Teléfono
+            <input type="tel" name="telefono" required class="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-secondary" placeholder="+56 9 ..." />
+          </label>
+        </div>
+        <label class="text-sm font-semibold text-gray-700 space-y-2">
+          Selecciona el servicio que necesitas
+          <select name="servicio" class="w-full rounded-xl border border-gray-200 px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-secondary">
+            <option value="Empresas">Empresas</option>
+            <option value="Personas">Personas</option>
+            <option value="Consultoría general">Consultoría general</option>
+          </select>
+        </label>
+        <label class="text-sm font-semibold text-gray-700 space-y-2">
+          Mensaje
+          <textarea name="mensaje" rows="5" required class="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-secondary" placeholder="Cuéntanos brevemente tu caso"></textarea>
+        </label>
+        <button type="submit" class="w-full px-6 py-4 rounded-xl bg-primary text-white font-semibold text-lg hover:bg-primary-light transition-colors">
+          Enviar mensaje
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <section class="bg-gray-900 text-white py-16 px-6">
+    <div class="max-w-container mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+      <div>
+        <p class="text-sm uppercase tracking-[0.3em] text-secondary font-semibold mb-3">Presencial y remoto</p>
+        <h3 class="text-3xl font-bold mb-4">Te atendemos donde estés</h3>
+        <p class="text-white/80 leading-relaxed mb-6">
+          Agendamos reuniones en nuestras oficinas de Santiago o virtuales para clientes en otras regiones y fuera de Chile.
+        </p>
+        <a href="https://goo.gl/maps" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 text-secondary font-semibold">
+          Ver ubicación en Google Maps
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m7 17 9-9" />
+            <path d="M8 7h8v8" />
+          </svg>
+        </a>
+      </div>
+      <div class="rounded-3xl overflow-hidden shadow-2xl border border-white/10">
+        <img
+          src="https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=1200&q=80"
+          alt="Oficinas Manríquez Rivera"
+          class="w-full h-80 object-cover"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
+
